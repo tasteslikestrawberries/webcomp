@@ -1,11 +1,11 @@
 import './app/features/websites-list/websites-list.js';
+import './app/features/test-component/test-component.js';
 
 const template = document.createElement('template');
 
 template.innerHTML = `
-  <div>
+    <test-component></test-component>
     <websites-list></websites-list>
-  </div>
 `;
 
 class App extends HTMLElement {
