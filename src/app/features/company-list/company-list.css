@@ -1,0 +1,46 @@
+.main-wrapper {
+  height: 100vh;
+  background-color: #f8f8fa;
+}
+
+.table-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.table-header {
+  font-weight: 500;
+}
+
+ul {
+  list-style-type: none;
+}
+
+.company-item {
+  font-size: 13px;
+  font-weight: 500;
+  padding: 0.5em;
+  background: linear-gradient(
+      0deg,
+      rgba(206, 208, 218, 0.05),
+      rgba(206, 208, 218, 0.05)
+    ),
+    linear-gradient(180deg, rgba(245, 245, 245, 0) 0%, #ffffff 100%);
+  box-shadow: inset 1px 0px 0px #eaedf3, inset -1px 0px 0px #eaedf3,
+    inset 0px -1px 0px #eaedf3;
+}
+
+button {
+  all: unset;
+  cursor: pointer;
+}
+
+.icon-caret {
+  width: 0;
+  height: 0;
+  display: inline-block;
+  border: 5px solid transparent;
+}
+.icon-caret.right {
+  border-left-color: #828282;
+}
