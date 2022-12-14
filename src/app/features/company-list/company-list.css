@@ -1,25 +1,58 @@
 .main-wrapper {
-  height: 100vh;
-  background-color: #f8f8fa;
+  min-height: 100vh;
+  background-color: #F2F2F2;
 }
 
 .table-wrapper {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
 }
 
 .table-header {
-  font-weight: 500;
+  font-size: smaller;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 1em 0.4em;
+  display: flex;
+  align-items: center;
+  gap: 1em;
+  color: #333333;
+  background-color: #F2F2F2;
+  box-shadow: inset 1px 0px 0px #eaedf3, inset -1px 0px 0px #eaedf3,
+    inset 0px -1px 0px #eaedf3;
+}
+
+.th-wrapper {
+  display:flex;
+  align-items: center;
+  gap: 25%;
+}
+
+.company-list-wrapper {
+  width: 100%;
 }
 
 ul {
   list-style-type: none;
+  padding: 0.8em;
+  margin: 0;
+}
+
+[data-id="item-checkbox"] {
+  accent-color: #2F80ED;
+}
+
+.company-list {
+  padding: 0;
 }
 
 .company-item {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
   font-size: 13px;
   font-weight: 500;
-  padding: 0.5em;
+  padding: 1em;
   background: linear-gradient(
       0deg,
       rgba(206, 208, 218, 0.05),
@@ -40,7 +73,42 @@ button {
   height: 0;
   display: inline-block;
   border: 5px solid transparent;
+  transform: rotate(0deg);
+  transition: transform 0.3s ease-in-out;
+ 
 }
 .icon-caret.right {
   border-left-color: #828282;
+}
+
+.with-rotate {
+  transform: rotate(90deg);
+}
+
+@media(width >= 900px) {
+  .main-wrapper {
+    display: flex;
+    justify-content: center;
+  }
+
+  .table-wrapper {
+    width: 80%;
+    padding: 2rem 0;
+  }
+
+  .th-wrapper >span:nth-child(1) {
+    margin-right: 20vw;
+  }
+
+  .th-wrapper >span:nth-child(2) {
+    margin-right: 5vw;
+  }
+
+  .th-wrapper >span:nth-child(3) {
+    margin-right: 5vw;
+  }
+  
+  
+  
+
 }
