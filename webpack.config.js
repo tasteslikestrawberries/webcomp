@@ -42,11 +42,11 @@ module.exports = {
     extensions: ["", ".js", ".css"],
   },
   output: {
-    path: "/dist",
+    path: "/docs",
     publicPath: "/",
     filename: "bundle.js",
   },
   devServer: {
-    static: "./dist",
+    static: "./docs",
   },
 };
