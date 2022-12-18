@@ -42,19 +42,62 @@ class CompanyList extends HTMLElement {
   }
 
   renderCompanyWebsites(id) {
-    const companyItem = this.shadowRoot.querySelector(`.company-item-${id}`);
-    const websitesList = companyItem.querySelector(".website-list");
+    const websitesList = this.shadowRoot.querySelector(`.website-list-${id}`);
+    websitesList.style.display =
+      websitesList.style.display === "block" ? "none" : "block";
+
+    if (websitesList.children.length !== 0) {
+      return;
+    }
 
     const websiteTemplate = this.shadowRoot.querySelector(".website-template");
-    const websiteTemplateClone = websiteTemplate.content.cloneNode(true);
 
-    const websiteName = websiteTemplateClone.querySelector( ".website-item--name");
-    websiteName.textContent = this.data.find((company) => id === company.id);
+    const company = this.data.result.find(
+      (company) => id === company.id.toString()
+    );
+    company.websites.forEach(({ id, name, sections, status }) => {
+      const websiteTemplateClone = websiteTemplate.content.cloneNode(true);
+      const websiteItem = websiteTemplateClone.querySelector(".website-item");
+      const websiteName = websiteTemplateClone.querySelector(
+        ".website-item--name"
+      );
+      const websiteSectionsCount = websiteTemplateClone.querySelector(
+        ".website-item--sections-count"
+      );
+      const websiteStatus = websiteTemplateClone.querySelector(
+        ".website-item--status"
+      );
+      const websiteStatusIndicator = websiteTemplateClone.querySelector(
+        ".website-item--status-indicator"
+      );
+      websiteItem.classList.add(`website-item-${id}`);
+      websiteName.textContent = name;
+      websiteSectionsCount.textContent = sections?.length ?? 0;
+      const { label, color } = this.getWebsiteStatus(status) ?? {};
+      websiteStatus.textContent = label;
+      websiteStatusIndicator.style.backgroundColor = color;
+      if (color === "white") {
+        websiteStatusIndicator.style.border = "1px solid #333333";
+      }
+      websitesList.appendChild(websiteItem);
+    });
   }
 
   onToggleCompany(e) {
     e.currentTarget.dataset.isExpanded = !e.currentTarget.dataset.isExpanded;
+
     this.renderCompanyWebsites(e.currentTarget.dataset.id);
+  }
+
+  getWebsiteStatus(status) {
+    return {
+      0: { label: "N/A", color: "white" },
+      1: { label: "Operational", color: "#27AE60" },
+      2: { label: "Not operational", color: "red" },
+      3: { label: "Partial", color: "yellow" },
+      4: { label: "Pending", color: "yellow" },
+      5: { label: "Stopped", color: "#BDBDBD" },
+    }[status];
   }
 
   renderCompanyList(data) {
@@ -65,23 +108,21 @@ class CompanyList extends HTMLElement {
       const companyTemplateClone = companyTemplate.content.cloneNode(true);
 
       const companyItem = companyTemplateClone.querySelector(".company-item");
+      const websitesList = companyTemplateClone.querySelector(".website-list");
       const companyName = companyTemplateClone.querySelector(
         ".company-item--name"
       );
 
-      const toggleCompanyBtn = companyTemplateClone.querySelector(
-        ".btn--toggleCompany"
-      );
-      toggleCompanyBtn.addEventListener(
-        "click",
-        this.onToggleCompany.bind(this)
-      );
+      companyItem.addEventListener("click", this.onToggleCompany.bind(this));
 
       companyItem.classList.add(`company-item-${id}`);
       companyItem.dataset.isExpanded = false;
 
-      toggleCompanyBtn.dataset.id = id;
+      companyItem.dataset.id = id;
       companyName.textContent = name;
+
+      websitesList.classList.add(`website-list-${id}`);
+      websitesList.id = `website-list-${id}`;
 
       ulElement.appendChild(companyTemplateClone);
     });

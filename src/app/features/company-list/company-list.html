@@ -1,12 +1,12 @@
 <div class="main-wrapper">
   <div class="table-wrapper">
     <div class="table-header">
-      <input data-id="item-checkbox" type="checkbox" />
-      <div class="th-wrapper">
+      <span>
+        <input type="checkbox" />
         <span>Website</span>
-        <span>Sections</span>
-        <span>Status</span>
-      </div>
+      </span>
+      <span>Sections</span>
+      <span>Status</span>
     </div>
 
     <div class="company-list-wrapper">
@@ -17,12 +17,24 @@
             <span class="icon-caret right"></span>
           </button>
           <span class="company-item--name"></span>
-          <ul class="website-list"></ul>
         </li>
+        <ul class="website-list"></ul>
       </template>
       <template class="website-template">
         <li class="website-item">
-          <span class="website-item--name"></span>
+          <div class="website-item--first-child">
+            <div>
+              <input type="checkbox" />
+              <button class="btn--toggleWebsite" type="button">
+                <span class="icon-caret right"></span>
+              </button>
+              <span class="website-item--icon"></span>
+              <span class="website-item--name"></span>
+            </div>
+          </div>
+          <span class="website-item--sections-count"></span>
+          <span class="website-item--status-indicator"></span>
+          <span class="website-item--status"></span>
         </li>
       </template>
     </div>

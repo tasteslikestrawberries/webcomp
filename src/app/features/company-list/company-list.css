@@ -1,71 +1,17 @@
-.main-wrapper {
-  min-height: 100vh;
-  background-color: #f2f2f2;
-}
-
-.table-wrapper {
-  display: flex;
-  flex-direction: column;
-}
-
-.table-header {
-  font-size: smaller;
-  font-weight: 700;
-  text-transform: uppercase;
-  padding: 1em 0.4em;
-  display: flex;
-  align-items: center;
-  gap: 1em;
-  color: #333333;
-  background-color: #f2f2f2;
-  box-shadow: inset 1px 0px 0px #eaedf3, inset -1px 0px 0px #eaedf3,
-    inset 0px -1px 0px #eaedf3;
-}
-
-.th-wrapper {
-  display: flex;
-  align-items: center;
-  gap: 25%;
-}
-
-.company-list-wrapper {
-  width: 100%;
-}
-
 ul {
   list-style-type: none;
   padding: 0.8em;
   margin: 0;
 }
 
-[data-id="item-checkbox"] {
-  accent-color: #2f80ed;
+input[type="checkbox"] {
+  accent-color: #2f80ed !important;
+  margin: 0 1rem;
 }
 
 button {
   all: unset;
   cursor: pointer;
-}
-
-.company-list {
-  padding: 0;
-}
-
-.company-item {
-  display: flex;
-  gap: 1rem;
-  align-items: center;
-  font-size: 13px;
-  font-weight: 500;
-  padding: 1em;
-  background: linear-gradient(
-      0deg,
-      rgba(206, 208, 218, 0.05),
-      rgba(206, 208, 218, 0.05)
-    ),
-    linear-gradient(180deg, rgba(245, 245, 245, 0) 0%, #ffffff 100%);
-  box-shadow: inset 1px 0px 0px #eaedf3, inset -1px 0px 0px #eaedf3,
-    inset 0px -1px 0px #eaedf3;
 }
 
 .icon-caret {
@@ -84,6 +30,123 @@ button {
   transform: rotate(90deg);
 }
 
+.main-wrapper {
+  min-height: 100vh;
+  background-color: #f2f2f2;
+}
+
+.table-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.table-header {
+  font-size: xx-small;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 1em 1em;
+  display: flex;
+  align-items: center;
+  color: #333333;
+  background-color: #f2f2f2;
+  box-shadow: inset 1px 0px 0px #eaedf3, inset -1px 0px 0px #eaedf3,
+    inset 0px -1px 0px #eaedf3;
+}
+
+.table-header > span:nth-of-type(1) {
+  display: flex;
+  align-items: center;
+  width: 50%;
+}
+
+.table-header > span:nth-of-type(2) {
+  width: 25%;
+}
+
+.company-list-wrapper {
+  width: 100%;
+}
+
+.company-list {
+  padding: 0;
+}
+
+.company-item {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 0.5rem 2rem;
+  background: linear-gradient(
+      0deg,
+      rgba(206, 208, 218, 0.05),
+      rgba(206, 208, 218, 0.05)
+    ),
+    linear-gradient(180deg, rgba(245, 245, 245, 0) 0%, #ffffff 100%);
+  box-shadow: inset 1px 0px 0px #eaedf3, inset -1px 0px 0px #eaedf3,
+    inset 0px -1px 0px #eaedf3;
+}
+
+.website-list {
+  display: none;
+  padding: 0;
+}
+
+.website-item {
+  display: flex;
+  font-size: xx-small;
+  align-items: center;
+  padding: 1rem 0.8rem;
+  background-color: #fff;
+  cursor: pointer;
+  box-shadow: inset 1px 0px 0px #eaedf3, inset -1px 0px 0px #eaedf3,
+    inset 0px -1px 0px #eaedf3;
+}
+
+.website-item:hover {
+  background-color: #F6F9FD;
+}
+
+.website-item--icon {
+  /*TODO replace with custom icon*/
+  content: url("https://i.ibb.co/YR9xQ8D/Group-1880.png");
+}
+
+.website-item--first-child {
+  width: 50%;
+}
+
+.website-item--first-child > div {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.website-item--name {
+  padding-right: 10px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.website-item--sections-count {
+  width: 25%;
+}
+
+.website-item--status-indicator {
+  height: 8px;
+  width: 8px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 0.5rem;
+}
+
+.website-item--status {
+  text-align: center;
+}
+
 @media (width >= 900px) {
   .main-wrapper {
     display: flex;
@@ -95,15 +158,19 @@ button {
     padding: 2rem 0;
   }
 
-  .th-wrapper > span:nth-child(1) {
-    margin-right: 20vw;
+  .table-header {
+    font-size: smaller;
   }
 
-  .th-wrapper > span:nth-child(2) {
-    margin-right: 5vw;
+  .website-item {
+    font-size: 14px;
   }
 
-  .th-wrapper > span:nth-child(3) {
-    margin-right: 5vw;
+  .website-item--first-child > div {
+    gap: 1rem;
+  }
+
+  .website-item--name {
+    padding-right: unset;
   }
 }

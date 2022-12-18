@@ -1,7 +1,7 @@
 //todo add sass and @use this variables in components
 export const colors = {
   $primary: "#2F80ED",
-  $secondary: "",
+  $secondary: "#F6F9FD",
   $white: "#fff",
   $dark: "#333333",
   $gray: "#E0E0E0",
