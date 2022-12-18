@@ -1,7 +1,7 @@
 import styles from "./test-component.css";
 import html from "./test-component.html";
 
-class TestComponent extends HTMLElement {
+class TestFeature extends HTMLElement {
   constructor() {
     super();
 
@@ -18,4 +18,4 @@ class TestComponent extends HTMLElement {
   render() {}
 }
 
-customElements.define("test-component", TestComponent);
+customElements.define("test-feature", TestFeature);

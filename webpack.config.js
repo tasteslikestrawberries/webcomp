@@ -42,7 +42,7 @@ module.exports = {
     extensions: ["", ".js", ".css"],
   },
   output: {
-    path: __dirname + "/dist",
+    path:  "/dist",
     publicPath: "/",
     filename: "bundle.js",
   },
