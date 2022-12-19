@@ -84,8 +84,6 @@ class CompanyList extends HTMLElement {
   }
 
   onToggleCompany(e) {
-    e.currentTarget.dataset.isExpanded = !e.currentTarget.dataset.isExpanded;
-
     this.renderCompanyWebsites(e.currentTarget.dataset.id);
   }
 
