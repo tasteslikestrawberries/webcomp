@@ -72,12 +72,11 @@ class CompanyList extends HTMLElement {
       companyItem.addEventListener("click", this.onToggleCompany.bind(this));
 
       companyItem.classList.add(`company-item-${id}`);
-      companyItem.dataset.isExpanded = false;
-
       companyItem.dataset.id = id;
       companyName.textContent = name;
 
       websitesList.classList.add(`website-list-${id}`);
+      websitesList.dataset.id = id;
       caretIcon.classList.add(`icon-caret-${id}`);
       websitesList.id = `website-list-${id}`;
 
@@ -92,6 +91,7 @@ class CompanyList extends HTMLElement {
   renderCompanyWebsites(id) {
     const websitesList = this.findElement(`.website-list-${id}`);
     const caretIcon = this.findElement(`.icon-caret-${id}`);
+
     if (websitesList.style.display === "block") {
       websitesList.style.display = "none";
       caretIcon.classList.remove("with-rotate");
@@ -135,22 +135,38 @@ class CompanyList extends HTMLElement {
         websiteTemplateClone
       );
 
+      const sectionList = this.findElement(
+        ".section-list",
+        websiteTemplateClone
+      );
+      sectionList.classList.add(`section-list-${id}`);
+      sectionList.dataset.id = id;
+
+      const sectionCaretIcon = this.findElement(
+        ".icon-caret",
+        websiteTemplateClone
+      );
+      sectionCaretIcon.classList.add(`icon-caret-${id}`);
+
+      websiteItem.addEventListener("click", this.onToggleSections.bind(this));
+
       websiteItem.classList.add(`website-item-${id}`);
+      websiteItem.dataset.id = id;
       websiteName.textContent = name;
       websiteSectionsCount.textContent = sections?.length ?? 0;
 
-      const { label, color } = this.getWebsiteStatus(status) ?? {};
+      const { label, color } = this.getStatus(status) ?? {};
       websiteStatus.textContent = label;
 
       websiteStatusIndicator.style.backgroundColor = color;
       if (color === "white") {
         websiteStatusIndicator.style.border = "1px solid #333333";
       }
-      websitesList.appendChild(websiteItem);
+      websitesList.appendChild(websiteTemplateClone);
     });
   }
 
-  getWebsiteStatus(status) {
+  getStatus(status) {
     return {
       0: { label: "N/A", color: "white" },
       1: { label: "Operational", color: "#27AE60" },
@@ -159,6 +175,76 @@ class CompanyList extends HTMLElement {
       4: { label: "Pending", color: "yellow" },
       5: { label: "Stopped", color: "#BDBDBD" },
     }[status];
+  }
+
+  renderSections(companyId, websiteId) {
+    const sectionList = this.findElement(`.section-list-${websiteId}`);
+    const sectionTemplate = this.findElement(".section-template");
+    const caretIcon = this.findElement(`.icon-caret-${websiteId}`);
+
+    if (sectionList.style.display === "block") {
+      sectionList.style.display = "none";
+      caretIcon.classList.remove("with-rotate");
+      caretIcon.style.borderLeftColor = "#828282";
+    } else {
+      sectionList.style.display = "block";
+      caretIcon.classList.add("with-rotate");
+      caretIcon.style.borderLeftColor = "#2f80ed";
+    }
+
+    if (sectionList.children.length !== 0) {
+      return;
+    }
+
+    const company = this.data.result.find(
+      ({ id }) => companyId === id.toString()
+    );
+    const website = company.websites.find(
+      ({ id }) => websiteId === id.toString()
+    );
+
+    website.sections.map(({ id, name, status }) => {
+      const sectionTemplateClone = sectionTemplate.content.cloneNode(true);
+
+      const sectionItem = this.findElement(
+        ".section-item",
+        sectionTemplateClone
+      );
+
+      const sectionName = this.findElement(
+        ".section-item--name",
+        sectionTemplateClone
+      );
+
+      const sectionStatusIndicator = this.findElement(
+        ".section-item--status-indicator",
+        sectionTemplateClone
+      );
+
+      const { label, color } = this.getStatus(status) ?? {};
+
+      sectionStatusIndicator.style.backgroundColor = color;
+      if (color === "white") {
+        sectionStatusIndicator.style.border = "1px solid #333333";
+      }
+
+      const tooltipTextElement = this.findElement(
+        ".tooltip-text",
+        sectionTemplateClone
+      );
+      tooltipTextElement.textContent = label;
+      sectionItem.classList.add(`section-item-${id}`);
+      sectionItem.dataset.id = id;
+      sectionName.textContent = name;
+
+      sectionList.appendChild(sectionTemplateClone);
+    });
+  }
+
+  onToggleSections(ev) {
+    const websiteItem = ev.currentTarget;
+    const websiteList = websiteItem.parentNode;
+    this.renderSections(websiteList.dataset.id, websiteItem.dataset.id);
   }
 }
 
