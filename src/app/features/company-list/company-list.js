@@ -26,12 +26,12 @@ class CompanyList extends HTMLElement {
       const loadingSpinner = document.createElement("loading-spinner");
       this.shadowRoot.appendChild(loadingSpinner);
     } else {
-      const loadingSpinner = this.findElement("loading-spinner");
+      const loadingSpinner = this.getElement("loading-spinner");
       this.shadowRoot.removeChild(loadingSpinner);
     }
   }
 
-  async fetchCompaniesAndDisplayData() {
+  fetchCompaniesAndDisplayData() {
     this.isLoading = true;
     this.companyService.getCompanies().then((data) => {
       this.renderCompanyList(data);
@@ -41,35 +41,34 @@ class CompanyList extends HTMLElement {
     });
   }
 
-  findElement(className, templateClone) {
+  getElement(className, templateClone) {
     if (templateClone) {
       return templateClone.querySelector(className);
     }
     return this.shadowRoot.querySelector(className);
   }
 
+  //company list
   renderCompanyList(data) {
-    const ulElement = this.findElement(".company-list");
-    const companyTemplate = this.findElement(".company-template");
+    const companyList = this.getElement(".company-list");
+    const companyTemplate = this.getElement(".company-template");
 
     data.result.map(({ name, id }) => {
       const companyTemplateClone = companyTemplate.content.cloneNode(true);
 
-      const companyItem = this.findElement(
+      const companyItem = this.getElement(
         ".company-item",
         companyTemplateClone
       );
-      const websitesList = this.findElement(
+      const websitesList = this.getElement(
         ".website-list",
         companyTemplateClone
       );
-      const companyName = this.findElement(
+      const companyName = this.getElement(
         ".company-item--name",
         companyTemplateClone
       );
-      const caretIcon = this.findElement(".icon-caret", companyTemplateClone);
-
-      companyItem.addEventListener("click", this.onToggleCompany.bind(this));
+      const caretIcon = this.getElement(".icon-caret", companyTemplateClone);
 
       companyItem.classList.add(`company-item-${id}`);
       companyItem.dataset.id = id;
@@ -80,17 +79,19 @@ class CompanyList extends HTMLElement {
       caretIcon.classList.add(`icon-caret-${id}`);
       websitesList.id = `website-list-${id}`;
 
-      ulElement.appendChild(companyTemplateClone);
+      companyItem.addEventListener("click", this.onToggleWebsites.bind(this));
+      companyList.appendChild(companyTemplateClone);
     });
   }
 
-  onToggleCompany(ev) {
-    this.renderCompanyWebsites(ev.currentTarget.dataset.id);
+  onToggleWebsites(ev) {
+    this.renderWebsites(ev.currentTarget.dataset.id);
   }
 
-  renderCompanyWebsites(id) {
-    const websitesList = this.findElement(`.website-list-${id}`);
-    const caretIcon = this.findElement(`.icon-caret-${id}`);
+  //website list
+  renderWebsites(id) {
+    const websitesList = this.getElement(`.website-list-${id}`);
+    const caretIcon = this.getElement(`.icon-caret-${id}`);
 
     if (websitesList.style.display === "block") {
       websitesList.style.display = "none";
@@ -106,49 +107,49 @@ class CompanyList extends HTMLElement {
       return;
     }
 
-    const websiteTemplate = this.findElement(".website-template");
+    const websiteTemplate = this.getElement(".website-template");
 
     const company = this.data.result.find(
       (company) => id === company.id.toString()
     );
 
-    company.websites.forEach(({ id, name, sections, status }) => {
+    company.websites.map(({ id, name, sections, status }) => {
       const websiteTemplateClone = websiteTemplate.content.cloneNode(true);
-      const websiteItem = this.findElement(
+
+      const websiteItem = this.getElement(
         ".website-item",
         websiteTemplateClone
       );
-      const websiteName = this.findElement(
+      const websiteName = this.getElement(
         ".website-item--name",
         websiteTemplateClone
       );
-      const websiteSectionsCount = this.findElement(
+      const websiteSectionsCount = this.getElement(
         ".website-item--sections-count",
         websiteTemplateClone
       );
-      const websiteStatus = this.findElement(
+      const websiteStatus = this.getElement(
         ".website-item--status",
         websiteTemplateClone
       );
-      const websiteStatusIndicator = this.findElement(
+      const websiteStatusIndicator = this.getElement(
         ".website-item--status-indicator",
         websiteTemplateClone
       );
 
-      const sectionList = this.findElement(
+      const sectionList = this.getElement(
         ".section-list",
         websiteTemplateClone
       );
+
       sectionList.classList.add(`section-list-${id}`);
       sectionList.dataset.id = id;
 
-      const sectionCaretIcon = this.findElement(
+      const sectionCaretIcon = this.getElement(
         ".icon-caret",
         websiteTemplateClone
       );
       sectionCaretIcon.classList.add(`icon-caret-${id}`);
-
-      websiteItem.addEventListener("click", this.onToggleSections.bind(this));
 
       websiteItem.classList.add(`website-item-${id}`);
       websiteItem.dataset.id = id;
@@ -162,26 +163,25 @@ class CompanyList extends HTMLElement {
       if (color === "white") {
         websiteStatusIndicator.style.border = "1px solid #333333";
       }
+
+      websiteItem.addEventListener("click", this.onToggleSections.bind(this));
       websitesList.appendChild(websiteTemplateClone);
     });
   }
 
-  getStatus(status) {
-    return {
-      0: { label: "N/A", color: "white" },
-      1: { label: "Operational", color: "#27AE60" },
-      2: { label: "Not operational", color: "red" },
-      3: { label: "Partial", color: "yellow" },
-      4: { label: "Pending", color: "yellow" },
-      5: { label: "Stopped", color: "#BDBDBD" },
-    }[status];
-  }
-
+  //sections list
   renderSections(companyId, websiteId) {
-    const sectionList = this.findElement(`.section-list-${websiteId}`);
-    const sectionTemplate = this.findElement(".section-template");
-    const caretIcon = this.findElement(`.icon-caret-${websiteId}`);
+    const company = this.data.result.find(
+      ({ id }) => companyId === id.toString()
+    );
+    const website = company.websites.find(
+      ({ id }) => websiteId === id.toString()
+    );
+    const sectionList = this.getElement(`.section-list-${websiteId}`);
+    const sectionTemplate = this.getElement(".section-template");
+    const caretIcon = this.getElement(`.icon-caret-${websiteId}`);
 
+    //expand/collapse sections
     if (sectionList.style.display === "block") {
       sectionList.style.display = "none";
       caretIcon.classList.remove("with-rotate");
@@ -196,27 +196,20 @@ class CompanyList extends HTMLElement {
       return;
     }
 
-    const company = this.data.result.find(
-      ({ id }) => companyId === id.toString()
-    );
-    const website = company.websites.find(
-      ({ id }) => websiteId === id.toString()
-    );
-
     website.sections.map(({ id, name, status }) => {
       const sectionTemplateClone = sectionTemplate.content.cloneNode(true);
 
-      const sectionItem = this.findElement(
+      const sectionItem = this.getElement(
         ".section-item",
         sectionTemplateClone
       );
 
-      const sectionName = this.findElement(
+      const sectionName = this.getElement(
         ".section-item--name",
         sectionTemplateClone
       );
 
-      const sectionStatusIndicator = this.findElement(
+      const sectionStatusIndicator = this.getElement(
         ".section-item--status-indicator",
         sectionTemplateClone
       );
@@ -228,13 +221,14 @@ class CompanyList extends HTMLElement {
         sectionStatusIndicator.style.border = "1px solid #333333";
       }
 
-      const tooltipTextElement = this.findElement(
+      const tooltipTextElement = this.getElement(
         ".tooltip-text",
         sectionTemplateClone
       );
       tooltipTextElement.textContent = label;
       sectionItem.classList.add(`section-item-${id}`);
       sectionItem.dataset.id = id;
+
       sectionName.textContent = name;
 
       sectionList.appendChild(sectionTemplateClone);
@@ -244,7 +238,19 @@ class CompanyList extends HTMLElement {
   onToggleSections(ev) {
     const websiteItem = ev.currentTarget;
     const websiteList = websiteItem.parentNode;
+
     this.renderSections(websiteList.dataset.id, websiteItem.dataset.id);
+  }
+
+  getStatus(status) {
+    return {
+      0: { label: "N/A", color: "white" },
+      1: { label: "Operational", color: "#27AE60" },
+      2: { label: "Not operational", color: "red" },
+      3: { label: "Partial", color: "yellow" },
+      4: { label: "Pending", color: "yellow" },
+      5: { label: "Stopped", color: "#BDBDBD" },
+    }[status];
   }
 }
 

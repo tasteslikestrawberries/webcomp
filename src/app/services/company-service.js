@@ -4,7 +4,7 @@ export class CompanyService {
     this.dataService = dataService;
   }
 
-  async getCompanies() {
+  getCompanies() {
     try {
       const companiesData = this.dataService.getData(this.url);
       return companiesData;
