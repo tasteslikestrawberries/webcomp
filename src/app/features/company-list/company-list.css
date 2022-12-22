@@ -20,19 +20,14 @@ button {
   display: inline-block;
   border: 5px solid transparent;
   transform: rotate(0deg);
-  transition: transform 0.3s ease-in-out;
+  transition: transform 0.1s ease-in-out;
 }
-.icon-caret.right {
+.icon-caret {
   border-left-color: #828282;
 }
 
 .with-rotate {
   transform: rotate(90deg);
-}
-
-.main-wrapper {
-  min-height: 100vh;
-  background-color: #f2f2f2;
 }
 
 .table-wrapper {
