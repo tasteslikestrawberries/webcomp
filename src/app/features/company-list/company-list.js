@@ -18,10 +18,10 @@ class CompanyList extends HTMLElement {
 
   connectedCallback() {
     this.fetchCompaniesAndDisplayData();
-    this.render();
+    this.onLoading();
   }
 
-  render() {
+  onLoading() {
     if (this.isLoading) {
       const loadingSpinner = document.createElement("loading-spinner");
       this.shadowRoot.appendChild(loadingSpinner);
@@ -36,7 +36,7 @@ class CompanyList extends HTMLElement {
     this.companyService.getCompanies().then((data) => {
       this.renderCompanyList(data);
       this.isLoading = false;
-      this.render();
+      this.onLoading();
       this.data = data;
     });
   }
@@ -135,7 +135,6 @@ class CompanyList extends HTMLElement {
         websiteTemplateClone
       );
 
-      websiteItem.classList.add(`website-item-${id}`);
       websiteItem.classList.add(`website-item-${id}`);
       websiteName.textContent = name;
       websiteSectionsCount.textContent = sections?.length ?? 0;
